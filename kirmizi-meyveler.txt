@@ -1,1 +1,3 @@
-çilek
+﻿çilek
+elma
+kiraz
