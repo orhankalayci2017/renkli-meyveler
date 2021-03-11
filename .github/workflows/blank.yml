@@ -16,9 +16,9 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  renkli-meyveler-build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -27,10 +27,32 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Hello, world!
+        run: cat *meyve* > butun-meyve-dosyalari.txt
 
+      - name: butun-meyveler dosyasını -> artifacts lere koy
+        uses: actions/upload-artifact@v2
+        with:
+          name: butun-meyveler
+          path: ./
+
+
+  renkli-meyveler-test:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      - name: butun-meyveler dosyasını -> artifacts lere koy
+        uses: actions/download-artifact@v2
+        with:
+          name: butun-meyveler
+          
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          grep "Elma" butun-meyve-dosyalari.txt
+          grep "Karpuz" butun-meyve-dosyalari.txt
+          grep "Nar" butun-meyve-dosyalari.txt
+          grep "Greyfurt" butun-meyve-dosyalari.txt
+          grep "Muz" butun-meyve-dosyalari.txt
